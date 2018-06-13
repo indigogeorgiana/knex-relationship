@@ -7,22 +7,40 @@ const router = express.Router()
 router.get('/', (req, res) => {
   db.getUsers()
     .then(users => {
-      res.render('./templates/main', {users: users})
+      res.render('./temps/home', {users: users})
     })
     .catch(err => {
       res.status(500).send('DATABASE ERROR: ' + err.message)
     })
 })
 
+router.get('/add', (req, res) => {
+  res.render('./temps/add')
+})
+
 router.get('/:id', (req, res) => {
   const id = req.params.id
   db.getProfiles(id)
     .then(user => {
-      console.log(user)
-      res.render('./templates/profile', {user: user})
+      res.render('./temps/profile', {user: user})
     })
     .catch(err => {
       res.status(500).send('DATABASE ERROR: ' + err.message)
+    })
+})
+
+router.post('/addprofile', (req, res) => {
+  const name = req.body.name
+  const email = req.body.email
+  const img = req.body.img
+  db.addUsers(name, email)
+    .then((userid) => {
+      return db.addProfiles(img, userid)
+    })
+    .catch(err => {
+      res.status(500).send('DATABASE ERROR: ' + err.message)
+    }).then(() => {
+      res.redirect('/')
     })
 })
 
