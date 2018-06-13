@@ -22,7 +22,6 @@ router.get('/user/:id', (req, res) => {
   const id = req.params.id
   db.getUser(id)
     .then(user => {
-      console.log(user)
       res.render('./profile', user)
     })
     .catch(err => {
@@ -43,7 +42,6 @@ router.post('/add', (req, res) => {
     URL: req.body.URL,
     profile_pic: req.body.profile_pic
   }
-  console.log(newUser)
   db.addUser(newUser, newProfile)
     .then(result => {
       res.redirect('/')
@@ -76,12 +74,11 @@ module.exports = router
 router.get('/blogs', (req, res) => {
   db.viewPosts()
     .then(result => {
-      console.log(result)
       res.render('blogs', {result})
       blogSort()
     })
 })
 
 function blogSort (obj) {
-  
+
 }

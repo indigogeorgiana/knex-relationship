@@ -28,6 +28,8 @@ function addUser (newUser, newProfile, testConn) {
   return conn('users')
     .insert(newUser).into('users')
     .then(response => {
+      newProfile.user_id = response[0]
+      console.log(newProfile)
       return conn('profiles')
         .insert(newProfile).into('profiles')
     })
