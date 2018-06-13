@@ -6,8 +6,7 @@ module.exports = {
   getUser: getUser,
   getUsers: getUsers,
   getProfile: getProfile,
-  addProfile: addProfile,
-  getUrl: getUrl
+  addProfile: addProfile
 }
 
 function getUsers (testConn) {
@@ -31,18 +30,27 @@ function getProfile (id, testConn) {
 function addProfile (data, testConn) {
   const conn = testConn || connection
   return conn('users')
-    .join('profiles', 'users.id', 'profiles.user_id')
-    .select('user.id as id', 'users.name as name', 'users.email as email', 'profiles.url as url')
     .insert({
       name: data.newName,
       email: data.newEmail
     })
-}
-
-function getUrl (newUrl, testConn) {
-  const conn = testConn || connection
-  return conn('profiles')
-    .insert({
-      url: newUrl
+    .select('users.id')
+    .then((uId) => {
+      return conn('profiles')
+        // .join('users', 'users.id', 'profiles.user_id')
+        // .select('users.id as newId', 'profiles.user_id as pId', 'profiles.url as url')
+        // .where()
+        .insert({
+          user_id: uId,
+          url: data.newUrl
+        })
     })
 }
+
+// function getUrl (newUrl, testConn) {
+//   const conn = testConn || connection
+//   return conn('profiles')
+//     .insert({
+//       url: newUrl
+//     })
+// }
