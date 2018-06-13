@@ -14,11 +14,12 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/', (req, res) => {
-  const id = req.body.id
+router.get('/:id', (req, res) => {
+  const id = req.params.id
   db.getUser(id)
-    .then(users => {
-      res.render('profile' + id, {})
+    .then(user => {
+      console.log(user)
+      res.render('./templates/profile', user)
     })
     .catch(err => {
       res.status(500).send('DATABASE ERROR: ' + err.message)

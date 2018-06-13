@@ -3,6 +3,7 @@ exports.up = (knex, Promise) => {
     table.increments('id').primary()
     table.string('url')
     table.string('img')
+    table.integer('user_Id')
   })
 }
 
