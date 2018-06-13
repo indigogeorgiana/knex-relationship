@@ -4,9 +4,13 @@
     <title>EDA Phase 1 Express Boilerplate</title>
   </head>
   <body>
+
+    <h1>Weird Aminals</h1>
+
     <ul>
     {{#each users}}
-      <li>{{name}} ({{email}})</li>
+      <a href="/profile/{{id}}"><li>{{name}} - {{email}}</li></a>
+      <br>
     {{/each}}
     </ul>
   </body>

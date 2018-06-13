@@ -4,6 +4,10 @@ module.exports = {
     connection: {
       filename: './dev.sqlite3'
     },
+    pool: {
+      afterCreate: (conn, cb) =>
+        conn.run('PRAGMA foreign_keys = ON', cb)
+    },
     useNullAsDefault: true
   },
 
