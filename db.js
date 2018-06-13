@@ -9,7 +9,8 @@ module.exports = {
   addUser,
   addProfile,
   getBlog,
-  getBlogs
+  getBlogs,
+  createblog
 }
 
 function getUsers (testConn) {
@@ -55,4 +56,10 @@ function getBlogs (conn = connection) {
   return conn('users')
     .join('posts', 'posts.user_id', 'users.id')
     .select('users.name', 'posts.title')
+}
+
+function createblog (id, title, content, conn = connection) {
+  return conn('posts').insert([
+    {title: title, content: content, user_id: id}
+  ])
 }

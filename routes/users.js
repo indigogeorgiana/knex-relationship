@@ -74,4 +74,28 @@ router.get('/bloglist', (req, res) => {
     })
 })
 
+router.get('/createblog', (req, res) => {
+  db.getUsers()
+    .then(users => {
+      res.render('createblog', {users: users})
+    })
+    .catch(err => {
+      res.status(500).send('DATABASE ERROR: ' + err.message)
+    })
+})
+
+router.post('/createblog', (req, res) => {
+  const id = req.body.users
+  const title = req.body.title
+  const content = req.body.content
+  console.log(req.body)
+  db.createblog(id, title, content)
+    .then(() => {
+      res.redirect('/bloglist')
+    })
+    .catch(err => {
+      res.status(500).send('DATABASE ERROR: ' + err.message)
+    })
+})
+
 module.exports = router
