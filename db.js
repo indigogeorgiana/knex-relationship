@@ -28,18 +28,20 @@ function getProfile (id, testConn) {
     .where('users.id', id)
 }
 
-function addProfile (newName, newEmail, testConn) {
+function addProfile (data, testConn) {
   const conn = testConn || connection
   return conn('users')
+    .join('profiles', 'users.id', 'profiles.user_id')
+    .select('user.id as id', 'users.name as name', 'users.email as email', 'profiles.url as url')
     .insert({
-      name: newName,
-      email: newEmail
+      name: data.newName,
+      email: data.newEmail
     })
 }
 
 function getUrl (newUrl, testConn) {
   const conn = testConn || connection
-  return conn('profiles').select()
+  return conn('profiles')
     .insert({
       url: newUrl
     })
