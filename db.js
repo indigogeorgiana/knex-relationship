@@ -21,9 +21,10 @@ function getUser (id, testConn) {
     .first()
 }
 
-function addUser (newUser, testConn) {
+function addUser (newUser, newProfile, testConn) {
   const conn = testConn || connection
   return conn('users')
-    .join('profiles', 'profiles.user_id', 'users.id')
-    .insert(newUser)
+    .insert(newProfile).into('profiles')
+    .insert(newUser).into('users')
+
 }

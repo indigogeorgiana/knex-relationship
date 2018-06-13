@@ -34,15 +34,17 @@ router.get('/add', (req, res) => {
   res.render('add')
 })
 
-router.get('/add', (req, res) => {
+router.post('/add', (req, res) => {
   const newUser = {
-    name: res.body.name,
-    email: res.body.email,
-    URL: res.body.URL,
-    profile_pic: res.body.profile_pic
+    name: req.body.name,
+    email: req.body.email
+  }
+  const newProfile = {
+    URL: req.body.URL,
+    profile_pic: req.body.profile_pic
   }
   console.log(newUser)
-  db.addUser(newUser)
+  db.addUser(newUser, newProfile)
     .then(result => {
       res.redirect('/')
     })
