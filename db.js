@@ -7,7 +7,8 @@ module.exports = {
   getUsers,
   getProfiles,
   addUsers,
-  addProfiles
+  addProfiles,
+  addBlog
 
 }
 
@@ -40,5 +41,9 @@ function addProfiles (img, userid, testConn) {
   return conn('profiles')
     .insert({'img': img, user_id: userid[0]})
 }
-// .join('user_hobbies', 'user_users.id', 'user_hobbies.user_id')
-// .join('hobbies', 'user_hobbies.hobby_id', 'hobbies.id')
+
+function addBlog (id, title, blog, testConn) {
+  const conn = testConn || connection
+  return conn('posts')
+    .insert([{'title': title, 'blog': blog, 'user_id': id}])
+}

@@ -44,4 +44,19 @@ router.post('/addprofile', (req, res) => {
     })
 })
 
+router.post('/addblog', (req, res) => {
+  const id = req.body.user
+  console.log(id)
+  const title = req.body.title
+  const blog = req.body.blog
+  console.log(id)
+  db.addBlog(id, title, blog)
+    .then(() => {
+      res.redirect('/')
+    })
+    .catch(err => {
+      res.status(500).send('DATABASE ERROR: ' + err.message)
+    })
+})
+
 module.exports = router
