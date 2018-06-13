@@ -7,7 +7,7 @@ const router = express.Router()
 router.get('/', (req, res) => {
   db.getUsers()
     .then(users => {
-      res.render('index', {users: users})
+      res.render('./templates/main', {users: users})
     })
     .catch(err => {
       res.status(500).send('DATABASE ERROR: ' + err.message)
@@ -16,10 +16,10 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const id = req.params.id
-  db.getUser(id)
+  db.getProfiles(id)
     .then(user => {
       console.log(user)
-      res.render('./templates/profile', user)
+      res.render('./templates/profile', {user: user})
     })
     .catch(err => {
       res.status(500).send('DATABASE ERROR: ' + err.message)
