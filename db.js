@@ -10,7 +10,8 @@ module.exports = {
   addProfile,
   getBlog,
   getBlogs,
-  createblog
+  createblog,
+  getFavourites
 }
 
 function getUsers (testConn) {
@@ -62,4 +63,12 @@ function createblog (id, title, content, conn = connection) {
   return conn('posts').insert([
     {title: title, content: content, user_id: id}
   ])
+}
+
+function getFavourites (id, conn = connection) {
+  return conn('users as u1')
+    .join('favourites as f', 'u1.id', 'f.user_id')
+    .join('users as u2', 'u2.id', 'f.favourite_id')
+    .select('f.user_id', 'u1.name as name1', 'f.favourite_id', 'u2.name as name2')
+    .where('u1.id', id)
 }
