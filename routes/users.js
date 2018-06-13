@@ -52,4 +52,36 @@ router.post('/add', (req, res) => {
       res.status(500).send(err.message)
     })
 })
+
+router.get('/user/:id/post', (req, res) => {
+  res.render('post')
+})
+
+router.post('/user/:id/post', (req, res) => {
+  const newPost = {
+    user_id: req.params.id,
+    title: req.body.title,
+    content: req.body.title
+  }
+  db.addPost(newPost)
+    .then(result => {
+      res.redirect('/')
+    })
+    .catch(err => {
+      res.status(500).send(err.message)
+    })
+})
 module.exports = router
+
+router.get('/blogs', (req, res) => {
+  db.viewPosts()
+    .then(result => {
+      console.log(result)
+      res.render('blogs', {result})
+      blogSort()
+    })
+})
+
+function blogSort (obj) {
+  
+}

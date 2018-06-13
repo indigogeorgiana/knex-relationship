@@ -3,9 +3,11 @@ const config = require('./knexfile')[environment]
 const connection = require('knex')(config)
 
 module.exports = {
-  getUser: getUser,
-  getUsers: getUsers,
-  addUser: addUser
+  getUser,
+  getUsers,
+  addUser,
+  addPost,
+  viewPosts
 }
 
 function getUsers (testConn) {
@@ -24,7 +26,22 @@ function getUser (id, testConn) {
 function addUser (newUser, newProfile, testConn) {
   const conn = testConn || connection
   return conn('users')
-    .insert(newProfile).into('profiles')
     .insert(newUser).into('users')
+    .then(response => {
+      return conn('profiles')
+        .insert(newProfile).into('profiles')
+    })
+}
 
+function addPost (newPost, testConn) {
+  const conn = testConn || connection
+  return conn('posts')
+    .insert(newPost)
+}
+
+function viewPosts (testConn) {
+  const conn = testConn || connection
+  return conn('users')
+    .join('posts', 'posts.user_id', 'users.id')
+    .select('users.name', 'posts.title')
 }
