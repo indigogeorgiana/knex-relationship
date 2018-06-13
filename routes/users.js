@@ -106,8 +106,24 @@ router.get('/favourites/:id', (req, res) => {
         name: users[0].name1,
         userdata: users
       }
-      console.log(user)
+      console.log(users)
       res.render('favourites', {user: user})
+    })
+    .catch(err => {
+      res.status(500).send('DATABASE ERROR: ' + err.message)
+    })
+})
+
+router.get('/favouriteposts/:id', (req, res) => {
+  const id = req.params.id
+  db.getFavouritepost(id)
+    .then(users => {
+      const user = {
+        name: users[0].name1,
+        userdata: users
+      }
+      console.log(users)
+      res.render('favouriteposts', {user: user})
     })
     .catch(err => {
       res.status(500).send('DATABASE ERROR: ' + err.message)

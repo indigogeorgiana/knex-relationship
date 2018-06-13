@@ -4,16 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Favourites</title>
+  <title>Favouriteposts</title>
 </head>
 <body>
   <h1>{{user.name}} favourites</h1>
    <ul>
     {{#each user.userdata}}
-    <li>{{name2}}</li>
+    <li>{{name2}}, {{title}}</li>
     {{/each}}
 </ul>
 
 </body>
 </html>
-

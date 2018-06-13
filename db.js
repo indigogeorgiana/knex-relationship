@@ -11,7 +11,8 @@ module.exports = {
   getBlog,
   getBlogs,
   createblog,
-  getFavourites
+  getFavourites,
+  getFavouritepost
 }
 
 function getUsers (testConn) {
@@ -70,5 +71,14 @@ function getFavourites (id, conn = connection) {
     .join('favourites as f', 'u1.id', 'f.user_id')
     .join('users as u2', 'u2.id', 'f.favourite_id')
     .select('f.user_id', 'u1.name as name1', 'f.favourite_id', 'u2.name as name2')
+    .where('u1.id', id)
+}
+
+function getFavouritepost (id, conn = connection) {
+  return conn('users as u1')
+    .join('favourites as f', 'u1.id', 'f.user_id')
+    .join('users as u2', 'u2.id', 'f.favourite_id')
+    .join('posts as p', 'p.user_id', 'u2.id')
+    .select('u1.name as name1', 'p.title as title', 'u2.name as name2')
     .where('u1.id', id)
 }
