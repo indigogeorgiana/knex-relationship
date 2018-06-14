@@ -4,7 +4,7 @@ exports.up = (knex, Promise) => {
     table.increments('id').primary()
     table.string('title')
     table.string('content')
-    table.integer('user_id').references('users.id')
+    table.integer('user_id')
   })
 }
 
